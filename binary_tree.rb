@@ -1,61 +1,53 @@
-# Write a method build_tree which takes an array of data 
-# (e.g. [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]) 
-# and turns it into a binary tree full of Node objects appropriately
-#  placed. Start by assuming the array you get is sorted.
-
-
-#sample data set --> [47, 3, 32, 43, 19, 6, 18, 36, 13, 0]
-
-# x = 10.times.map{ rand(0...30) } 
-# p x
-
-class Node 
-  attr_accessor :value, :parent_node,:left_node, :right_node 
-  def initialize(value = nil, parent_node = nil, left_node = nil, right_node = nil)
-  	  @value = value
-  	  @parent_node = parent_node
-  	  @left_node   = left_node
-  	  @right_node  = right_node
-    end
-
-    def node_placement(next_value,parent_node)
-      current_node = parent_node
-      if next_value < current_node.value
-        if current_node.left_node == nil
-          current_node.left_node = next_value
-        else 
-          node_placement(next_value,current_node)
-        end 
-
-      elsif next_value >= current_node.value
-        if current_node.right_node == nil
-          current_node.right_node = next_value
-        else 
-          node_placement(next_value,current_node)
-        end 
-
-      end
-    end
-
+class Node
+ attr_accessor :value, :left, :right
+  def initialize(value)
+    @left = nil
+    @right = nil
+    @value = value
+  end  
 end
 
-#[47, 3, 52, 43, 19, 6, 18, 36, 13, 0]
-new_tree_root = Node.new(47,nil) 
-new_tree_root.node_placement(3,new_tree_root)
-new_tree_root.node_placement(52,new_tree_root)
+def build_tree(data)
+ root = Node.new(data[0])
+ data.shift
+  while data.length != 0
+   x = Node.new(data[0])
+   insert(x,root)  
+   data.shift
+  end
+  # p root.value                  #5
+  # p root.left.value             #2
+  # p root.left.left.value        #1
+  # p root.left.right.value       #3
+  # p root.left.right.right.value #4 
+  # p root.right.value            #9
+  # p root.right.left.value       #7
+  # p root.right.left.left.value  #6
+  # p root.right.left.right.value #8
+
+  root
+end#end of build_tree
+
+def insert(new_node,root)
+  if new_node.value < root.value
+    if root.left == nil
+      root.left = new_node
+    else 
+      insert(new_node,root.left)
+    end 
+    
+  elsif new_node.value > root.value
+    if root.right == nil
+      root.right = new_node
+    else    
+      insert(new_node,root.right)
+   end 
+  end  
+end
 
 
-puts ' - - - - - -'
-p new_tree_root
+x = [5, 9, 2, 7, 1, 3, 6, 8, 4 ]
+tree = build_tree(x)
+pp tree
 
 
-#<Node: @value = 47, 
-#@parent_node  = nil, 
-#@left_node    = Node:@value=3, 
-                   #@parent_node = 47, 
-                   #@left_node   = nil, 
-                   #@right_node  = Node @value=32, 
-                                    # @parent_node = 3, 
-                                    # @left_node   = nil, 
-                                    # @right_node  = nil>>, 
-#@right_node = nil>
