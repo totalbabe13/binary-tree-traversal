@@ -38,27 +38,23 @@ def insert(new_node,root)
    end 
   end  
 end
+
 # - - - - - - - - - - - - - - - - -
 def breadth_first_search(tree,target)
   root = tree
   queue = [] 
-  visited_nodes = []
-  
   queue.push(root) 
-  visited_nodes.push(queue[0].value)
   
   while queue.empty? == false
     if root.left != nil
       queue.push(root.left)
-      visited_nodes.push(root.left.value)
     end
     
     if root.right != nil
       queue.push(root.right)
-      visited_nodes.push(root.right.value)
     end
+
     root = queue.shift
-    
     if root.value == target
       return root
     end    
@@ -67,11 +63,26 @@ def breadth_first_search(tree,target)
 end
 
 # - - - - - - - - - - - - - - - - -
+def depth_first_search(tree,target)
+root = tree
+stack = []
+stack.push(root)
+
+ until stack.size == 0
+      return root if root.value == target
+      stack.push(root.left) if root.left
+      stack.push(root.right) if root.right
+      root = stack.pop
+    end
+end
+
+# - - - - - - - - - - - - - - - - -
 # - R - U - N - N - E - R 
 # - - - - - - - - - - - - - - - - -
 x = [5, 9, 2, 7, 1, 3, 6, 8, 4 ]
 test_tree = build_tree(x)
-breadth_first_search(test_tree,7)
+#breadth_first_search(test_tree,9)
+depth_first_search(test_tree,7)
 
 
 
