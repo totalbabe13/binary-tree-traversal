@@ -77,12 +77,22 @@ stack.push(root)
 end
 
 # - - - - - - - - - - - - - - - - -
+def dfs_rec(tree,target)
+#test-expression ? if-true-expression : if-false-expression
+root = tree
+ return if root.nil?
+    return root if root.value == target
+    dfs_rec(root.left,target) || dfs_rec(root.right, target)
+end
+
+# - - - - - - - - - - - - - - - - -
 # - R - U - N - N - E - R 
 # - - - - - - - - - - - - - - - - -
 x = [5, 9, 2, 7, 1, 3, 6, 8, 4 ]
 test_tree = build_tree(x)
 #breadth_first_search(test_tree,9)
-depth_first_search(test_tree,7)
+#depth_first_search(test_tree,7)
+dfs_rec(test_tree,9)
 
 
 
